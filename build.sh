@@ -174,75 +174,75 @@ if [ ! -e "${FOLDER_ISO}/custom.iso" ]; then
     -o "${FOLDER_ISO}/custom.iso" "${FOLDER_ISO_CUSTOM}"
 fi
 
-echo "Creating VM Box..."
-# create virtual machine
-if ! VBoxManage showvminfo "${BOX}" >/dev/null 2>&1; then
-  VBoxManage createvm \
-    --name "${BOX}" \
-    --ostype Debian_64 \
-    --register \
-    --basefolder "${FOLDER_VBOX}"
+#echo "Creating VM Box..."
+## create virtual machine
+#if ! VBoxManage showvminfo "${BOX}" >/dev/null 2>&1; then
+#  VBoxManage createvm \
+#    --name "${BOX}" \
+#    --ostype Debian_64 \
+#    --register \
+#    --basefolder "${FOLDER_VBOX}"
 
-  VBoxManage modifyvm "${BOX}" \
-    --memory 360 \
-    --boot1 dvd \
-    --boot2 disk \
-    --boot3 none \
-    --boot4 none \
-    --vram 12 \
-    --pae off \
-    --rtcuseutc on
+#  VBoxManage modifyvm "${BOX}" \
+#    --memory 360 \
+#    --boot1 dvd \
+#    --boot2 disk \
+#    --boot3 none \
+#    --boot4 none \
+#    --vram 12 \
+#    --pae off \
+#    --rtcuseutc on
 
-  VBoxManage storagectl "${BOX}" \
-    --name "IDE Controller" \
-    --add ide \
-    --controller PIIX4 \
-    --hostiocache on
+#  VBoxManage storagectl "${BOX}" \
+#    --name "IDE Controller" \
+#    --add ide \
+#    --controller PIIX4 \
+#    --hostiocache on
 
-  VBoxManage storageattach "${BOX}" \
-    --storagectl "IDE Controller" \
-    --port 1 \
-    --device 0 \
-    --type dvddrive \
-    --medium "${FOLDER_ISO}/custom.iso"
+#  VBoxManage storageattach "${BOX}" \
+#    --storagectl "IDE Controller" \
+#    --port 1 \
+#    --device 0 \
+#    --type dvddrive \
+#    --medium "${FOLDER_ISO}/custom.iso"
 
-  VBoxManage storagectl "${BOX}" \
-    --name "SATA Controller" \
-    --add sata \
-    --controller IntelAhci \
-    $PORTCOUNT \
-    --hostiocache off
+#  VBoxManage storagectl "${BOX}" \
+#    --name "SATA Controller" \
+#    --add sata \
+#    --controller IntelAhci \
+#    $PORTCOUNT \
+#    --hostiocache off
 
-  VBoxManage createhd \
-    --filename "${FOLDER_VBOX}/${BOX}/${BOX}.vdi" \
-    --size 40960
+#  VBoxManage createhd \
+#    --filename "${FOLDER_VBOX}/${BOX}/${BOX}.vdi" \
+#    --size 40960
 
-  VBoxManage storageattach "${BOX}" \
-    --storagectl "SATA Controller" \
-    --port 0 \
-    --device 0 \
-    --type hdd \
-    --medium "${FOLDER_VBOX}/${BOX}/${BOX}.vdi"
+#  VBoxManage storageattach "${BOX}" \
+#    --storagectl "SATA Controller" \
+#    --port 0 \
+#    --device 0 \
+#    --type hdd \
+#    --medium "${FOLDER_VBOX}/${BOX}/${BOX}.vdi"
 
-  ${STARTVM}
+#  ${STARTVM}
 
-  echo -n "Waiting for installer to finish "
-  while VBoxManage list runningvms | grep "${BOX}" >/dev/null; do
-    sleep 20
-    echo -n "."
-  done
-  echo ""
+#  echo -n "Waiting for installer to finish "
+#  while VBoxManage list runningvms | grep "${BOX}" >/dev/null; do
+#    sleep 20
+#    echo -n "."
+#  done
+ # echo ""
 
-  VBoxManage storageattach "${BOX}" \
-    --storagectl "IDE Controller" \
-    --port 1 \
-    --device 0 \
-    --type dvddrive \
-    --medium emptydrive
-fi
+#  VBoxManage storageattach "${BOX}" \
+#    --storagectl "IDE Controller" \
+#    --port 1 \
+#    --device 0 \
+#    --type dvddrive \
+#    --medium emptydrive
+#fi
 
-echo "Building Vagrant Box ..."
-vagrant package --base "${BOX}" --output "${BOX}.box"
+#echo "Building Vagrant Box ..."
+#vagrant package --base "${BOX}" --output "${BOX}.box"
 
 # references:
 # http://blog.ericwhite.ca/articles/2009/11/unattended-debian-lenny-install/

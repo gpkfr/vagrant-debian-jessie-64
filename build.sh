@@ -24,8 +24,8 @@ set -o xtrace
 
 # Configurations
 BOX="debian-jessie"
-ISO_URL="http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-8.0.0-amd64-netinst.iso"
-ISO_MD5="d9209f355449fe13db3963571b1f52d4"
+ISO_URL="http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-8.1.0-amd64-netinst.iso"
+ISO_MD5="1a311f9afb68d6365211b13b4342c40b"
 
 # location, location, location
 FOLDER_BASE=$(pwd)
@@ -176,6 +176,9 @@ if [ ! -e "${FOLDER_ISO}/custom.iso" ]; then
 fi
 
 echo "Creating VM Box..."
+#echo  "Aborted....; )"
+#exit 0
+
 # create virtual machine
 if ! VBoxManage showvminfo "${BOX}" >/dev/null 2>&1; then
   VBoxManage createvm \

@@ -35,16 +35,16 @@ FOLDER_ISO_CUSTOM="${FOLDER_BUILD}/iso/custom"
 FOLDER_ISO_INITRD="${FOLDER_BUILD}/iso/initrd"
 
 # Env option: Use headless mode or GUI
-VM_GUI="${VM_GUI:-}"
-if [ "x${VM_GUI}" == "xyes" ] || [ "x${VM_GUI}" == "x1" ]; then
-  STARTVM="VBoxManage startvm ${BOX}"
-else
-  STARTVM="VBoxManage startvm ${BOX} --type headless"
-fi
-STOPVM="VBoxManage controlvm ${BOX} poweroff"
+#VM_GUI="${VM_GUI:-}"
+#if [ "x${VM_GUI}" == "xyes" ] || [ "x${VM_GUI}" == "x1" ]; then
+#  STARTVM="VBoxManage startvm ${BOX}"
+#else
+#  STARTVM="VBoxManage startvm ${BOX} --type headless"
+#fi
+#STOPVM="VBoxManage controlvm ${BOX} poweroff"
 
 # Env option: Use custom preseed.cfg or default
-DEFAULT_PRESEED="preseed.cfg"
+DEFAULT_PRESEED="preseed_fusion.cfg"
 PRESEED="${PRESEED:-"$DEFAULT_PRESEED"}"
 
 # Env option: Use custom late_command.sh or default
@@ -52,11 +52,11 @@ DEFAULT_LATE_CMD="${FOLDER_BASE}/late_command.sh"
 LATE_CMD="${LATE_CMD:-"$DEFAULT_LATE_CMD"}"
 
 # Parameter changes from 4.2 to 4.3
-if [[ "$VBOX_VERSION" < 4.3 ]]; then
-  PORTCOUNT="--sataportcount 1"
-else
-  PORTCOUNT="--portcount 1"
-fi
+#if [[ "$VBOX_VERSION" < 4.3 ]]; then
+#  PORTCOUNT="--sataportcount 1"
+#else
+#  PORTCOUNT="--portcount 1"
+#fi
 
 if [ "$OSTYPE" = "linux-gnu" ]; then
   MD5="md5sum"
@@ -67,14 +67,15 @@ else
 fi
 
 # start with a clean slate
-if VBoxManage list runningvms | grep "${BOX}" >/dev/null 2>&1; then
-  echo "Stopping vm ..."
-  ${STOPVM}
-fi
-if VBoxManage showvminfo "${BOX}" >/dev/null 2>&1; then
-  echo "Unregistering vm ..."
-  VBoxManage unregistervm "${BOX}" --delete
-fi
+#if VBoxManage list runningvms | grep "${BOX}" >/dev/null 2>&1; then
+#  echo "Stopping vm ..."
+#  ${STOPVM}
+#fi
+#if VBoxManage showvminfo "${BOX}" >/dev/null 2>&1; then
+#  echo "Unregistering vm ..."
+#  VBoxManage unregistervm "${BOX}" --delete
+#fi
+
 if [ -d "${FOLDER_BUILD}" ]; then
   echo "Cleaning build directory ..."
   chmod -R u+w "${FOLDER_BUILD}"
